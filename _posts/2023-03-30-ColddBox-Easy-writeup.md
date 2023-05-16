@@ -2,8 +2,8 @@
 layout: post
 title: ColddBox Easy Writeup
 subtitle: ColddBox Easy Writeup
-cover-img: /assets/img/basic-pentesting-writeup/portada1.png
-thumbnail-img: /assets/img/basic-pentesting-writeup/portada1.png
+cover-img: /assets/img/colddbox-easy-writeup/portada1.png
+thumbnail-img: /assets/img/colddbox-easy-writeup/portada1.png
 share-img: /assets/img/path.jpg
 tags: [linux, fácil, tryhackme, writeup]
 excerpt: "En este post vamos a resolver la máquina Basic Pentesting de la plataforma tryhackme. Esta es una máquina de dificultad fácil con bastante enumeración. Espero que la disfrutéis."
@@ -72,11 +72,13 @@ No encontramos vulnerabilidades, pero encontramos tres usuarios a los que podrí
 
 ![](/assets/img/colddbox-easy-writeup/wpscan5.png)
 
+![](/assets/img/colddbox-easy-writeup/wpscan6.png)
+
 ```
 wpscan --url http://{IP} -U c0ldd,hugo,philip -P /usr/share/wordlists/rockyou.txt
 ```
 
-Encontramos la contraseña del usuario c0ldd, así que abortamos el ataque con <br> *control c*. Ahora vamos a iniciar sesión en Wordpress:
+Encontramos la contraseña del usuario c0ldd, <br> así que abortamos el ataque con *control c*. Ahora vamos a iniciar sesión en Wordpress:
 
 ![](/assets/img/colddbox-easy-writeup/web2.png)
 
@@ -96,7 +98,7 @@ Entramos a "Editor" en "Appearance":
 
 Ahora vamos a "404 Templates":
 
-![](/assets/img/colddbox-easy-writeup/web7.png)
+![](/assets/img/colddbox-easy-writeup/web12.png)
 
 Lo siguiente que tenemos que hacer ahora es subir la reverse shell. Vamos a la página de [revshells](https://www.revshells.com/):
 
@@ -104,11 +106,15 @@ Lo siguiente que tenemos que hacer ahora es subir la reverse shell. Vamos a la p
 
 Ahora seleccionamos la reverse shell php de PentestMonkey. La copiamos sin los signos "<?php" y "?>" del principio y del final:
 
+![](/assets/img/colddbox-easy-writeup/revshells3.png)
+
 ![](/assets/img/colddbox-easy-writeup/revshells2.png)
 
 Volvemos a Wordpress y pegamos al reverse shell en la segunda línea. Le damos a "update file":
 
-![](/assets/img/colddbox-easy-writeup/revshells3.png)
+![](/assets/img/colddbox-easy-writeup/web11.png)
+
+![](/assets/img/colddbox-easy-writeup/web7.png)
 
 Ahora ya tenemos la reverse shell subida. Lo siguiente es forzar el error 404, este error sucede cuando no encuentra un resultado, por lo que vamos a buscar un directorio al azar que no exista para forzarlo:
 
@@ -162,7 +168,7 @@ Ahora que ya tenemos la shell tratada vamos a buscar una forma de escalar privil
 find / -perm -4000 2>/dev/null
 ```
 
-Observamos que podemos ejecutar el comando find con permisos de root, vamos a ir a GFTOBins para ver como escalar privilegios a root con ese comando:
+Observamos que podemos ejecutar el comando find con permisos de root, vamos a ir a [GFTOBins](https://gtfobins.github.io) para ver como escalar privilegios a root con ese comando: 
 
 ![](/assets/img/colddbox-easy-writeup/shell3.png)
 
